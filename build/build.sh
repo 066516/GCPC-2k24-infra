@@ -1,5 +1,4 @@
-#!/bin/sh -e
-
+#!/bin/bash -e
 VERSION=$1
 if [[ -z ${VERSION} ]]
 then
@@ -11,8 +10,8 @@ fi
 DOMSERVER="gcpc_domserver"
 JUDGEHOST="gcpc_judgehost"
 
-DOCKERFILE_DOMSERVER="Dockerfile_domserver"
-DOCKERFILE_JUDGEHOST="Dockerfile_judgehost"
+DOCKERFILE_DOMSERVER="./build/Dockerfile_domserver"
+DOCKERFILE_JUDGEHOST="./build/Dockerfile_judgehost"
 
 
 echo "[..] Building Docker image for ${DOMSERVER} using domjudge/domserver image"

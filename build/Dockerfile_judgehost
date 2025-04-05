@@ -1,11 +1,25 @@
 FROM domjudge/judgehost:7.1.1
 
-# install golang
-RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y \
-    golang-go
+# Disable proxy that might interfere
+ENV http_proxy=""
+ENV https_proxy=""
 
-## wait wrapper
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Go manually (version 1.20.14 is a safe, stable choice)
+ENV GOLANG_VERSION=1.20.14
+
+RUN curl -LO https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    rm go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+# Set Go env vars
+ENV PATH="/usr/local/go/bin:$PATH"
+
+# wait wrapper
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.4.0/wait /opt/wait
 RUN chmod +x /opt/wait
 
