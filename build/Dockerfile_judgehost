@@ -3,7 +3,9 @@ FROM domjudge/judgehost:7.1.1
 # Disable proxy that might interfere
 ENV http_proxy=""
 ENV https_proxy=""
-
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i '/buster-updates/d' /etc/apt/sources.list
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl ca-certificates && \
